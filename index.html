@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+
+        function computerPlay(){
+
+            let randomNumber = Math.floor(Math.random()*3);
+
+            if(randomNumber===0){return "Rock"}
+
+            else if (randomNumber===1){return "Paper"}
+
+            else if (randomNumber===2){return "Scissors"}
+
+        }
+
+        function playerPlay(){}
+
+
+
+        let computerSelection = computerPlay();
+
+        let playerSelection = playerPlay();
+
+
+
+        function roundWinner(playerSelection, computerSelection){
+
+            if(playerSelection=="rock"){
+
+                switch(computerSelection){
+
+                    case "Rock": return "It's a draw";
+                    break;
+                    case "Paper": return "You lose! Paper covers Rock.";
+                    break;
+                    case "Scissors": return "You win! Rock smashes Scissors.";
+                    break;
+                }
+
+            }
+
+            else if (playerSelection=='paper'){
+
+                switch(computerSelection){
+
+                    case "Rock": return "You win! Paper covers Rock.";
+                    break;
+                    case "Paper": return "It's a draw.";
+                    break;
+                    case "Scissors": return "You lose! Scissors cut Paper.";
+                    break;
+                }
+
+            }
+
+            else (playerSelection=='scissors'){
+
+                switch(computerSelection){
+
+                    case "Rock": return "You lose! Rock smashes scissors.";
+                    break;
+                    case "Paper": return "You win! Scissors cuts paper.";
+                    break;
+                    case "Scissors": return "It's a draw.";
+                    break;
+                }
+
+            }
+
+        
+        }
+
+        console.log(computerPlay());
+
+    </script>
+    
+</body>
+</html>
