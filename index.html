@@ -10,40 +10,73 @@
 
     <script>
 
+        console.log(game());
+        
+        function userInput(){
+            return window.prompt("Rock,Paper,Scissors?");
+        }
 
+        
         function computerPlay(){
 
             let randomNumber = Math.floor(Math.random()*3);
 
-            if(randomNumber===0){return "Rock"}
+            if(randomNumber===0){return "rock"}
 
-            else if (randomNumber===1){return "Paper"}
+            else if (randomNumber===1){return "paper"}
 
-            else if (randomNumber===2){return "Scissors"}
+            else if (randomNumber===2){return "scissors"}
 
         }
 
-        function playerPlay(){}
+         function game(){
 
+            let computerWins=0;
+            let playerWins=0;
+            
+            for(gameCounter=0;gameCounter<=4; gameCounter++){
 
+                let playerSelection =userInput().toLowerCase();
 
-        let computerSelection = computerPlay();
+                    console.log("You chose:",playerSelection);
 
-        let playerSelection = playerPlay();
+                let computerSelection=computerPlay();
 
+                    console.log("Computer chose:",computerSelection);
 
+                roundWinner(playerSelection,computerSelection);
+                
+                let scoreKeeper=roundWinner(playerSelection,computerSelection);
+
+                console.log(scoreKeeper[0]);
+
+                if (scoreKeeper[1]===true) playerWins++;
+                else if(scoreKeeper[1]===false) computerWins++;
+                console.log("computer score",computerWins);
+                console.log("your score",playerWins);
+                
+            }
+            
+            
+            if(playerWins>computerWins) console.log("You Win, Game over");
+            else if(computerWins>playerWins) console.log("You Lose!, Game over");
+            else if (computerWins===playerWins) console.log("Tie Game!,Game over");
+
+            return;
+            
+        }
 
         function roundWinner(playerSelection, computerSelection){
 
-            if(playerSelection=="rock"){
+            if(playerSelection==="rock"){
 
                 switch(computerSelection){
 
-                    case "Rock": return "It's a draw";
+                    case "rock": return ["It's a draw",null];
                     break;
-                    case "Paper": return "You lose! Paper covers Rock.";
+                    case "paper": return ["You lose! Paper covers rock.",false];
                     break;
-                    case "Scissors": return "You win! Rock smashes Scissors.";
+                    case "scissors": return ["You win! Rock smashes scissors.",true];
                     break;
                 }
 
@@ -51,37 +84,33 @@
 
             else if (playerSelection=='paper'){
 
-                switch(computerSelection){
+                 switch(computerSelection){
 
-                    case "Rock": return "You win! Paper covers Rock.";
+                    case "rock": return ["You win! Paper covers rock.",true];
                     break;
-                    case "Paper": return "It's a draw.";
+                    case "paper": return ["It's a draw.",null];
                     break;
-                    case "Scissors": return "You lose! Scissors cut Paper.";
-                    break;
-                }
-
-            }
-
-            else (playerSelection=='scissors'){
-
-                switch(computerSelection){
-
-                    case "Rock": return "You lose! Rock smashes scissors.";
-                    break;
-                    case "Paper": return "You win! Scissors cuts paper.";
-                    break;
-                    case "Scissors": return "It's a draw.";
+                    case "scissors": return ["You lose! Scissors cut paper.",false];
                     break;
                 }
 
             }
 
-        
-        }
+            else if (playerSelection=='scissors') {
 
-        console.log(computerPlay());
+                    switch(computerSelection){
 
+                    case "rock": return ["You lose! Rock smashes scissors.",false];
+                    break;
+                    case "paper": return ["You win! Scissors cuts paper.",true];
+                    break;
+                    case "scissors": return ["It's a draw.",null];
+                    break;
+                }
+
+            }
+         }
+            
     </script>
     
 </body>
