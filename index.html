@@ -5,18 +5,140 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
+    <link rel="stylesheet" href="style.css">
+</head> 
 <body>
 
-    <script>
+    <div class="header"> 
 
-        console.log(game());
+        <h1>Rock, Paper, Scissors</h1>
+
+    </div>
+
+    <div class="mainContainer">
+
+        <div class ="container">
+
+            <div class="scoreBoard"> 
+
+                <div class="score one"> Player Score
+                    <div id = "userScore">0</div>
+                </div>
+
+                <div class="score two"> Computer Score
+                    <div id = "computerScore">0</div>
+                </div>
+
+            </div>
+
+
+            <div class= "selection"> 
+
+                <div id="userSelect"> 
+                    <img>
+                </div> 
+
+                <div id="compSelect"> 
+                    <img>
+                </div>
+
+            </div>
+
+            <div class= "score message"> 
+
+                <div id = "winner">Chose a button below to start, first to 5 wins!</div>
+            
+            </div>
+
+            <div class="newGame">
+                <div>Would you like to restart the game?</div>
+                <button id="yes">Yes</button>
+                <button id="no">No</button>
+            
+            </div>
+
+
+            <div class ="buttons">
+
+                <button id = "rock">Rock</button>
+                <button id = "paper">Paper</button>
+                <button id = "scissors">Scissors</button>
+
+            </div>
+
+        </div>
         
-        function userInput(){
-            return window.prompt("Rock,Paper,Scissors?");
+    </div>
+
+    <div class ="footer">
+        <h4>Rock,Paper,Scissors Project made by Foosh1 for The Odin Project</h4>
+    </div>
+
+
+    <script>
+        
+            let button;
+            let imgSelect;
+            let computerWins=0;
+            let playerWins=0;
+
+            const rock =document.querySelector("#rock");
+            const paper =document.querySelector("#paper");
+            const scissors =document.querySelector("#scissors");
+            const userSelect =document.querySelector("#userSelect");
+            const compSelect =document.querySelector("#compSelect");
+            const roundResults = document.querySelector("#winner");
+            const userScore = document.querySelector("#userScore");
+            const computerScore = document.querySelector("#computerScore");
+            const yes = document.querySelector("#yes");
+            const no = document.querySelector("#no");
+            const newGame= document.querySelector(".newGame");
+
+            rock.addEventListener('click', ()=>{ 
+                    
+                    if (isGameOver(playerWins,computerWins)===true){
+                        return;
+                    }
+                    else{
+                        button = "rock";
+                        game(button);
+                    }
+            }); 
+
+            paper.addEventListener('click', ()=> {
+                 
+                if (isGameOver(playerWins,computerWins)===true){
+                    return; 
+                }
+                else{
+                    button ="paper";
+                    game(button);
+                }
+            });
+
+            scissors.addEventListener('click', ()=> {
+                    
+                if (isGameOver(playerWins,computerWins)===true){
+                    return;
+                }
+                else{
+                    button= "scissors";
+                    game(button);
+                }
+            });
+
+            yes.addEventListener("click",selectYes);
+            no.addEventListener("click",selectNo);
+
+        function displayImg(selection){
+            let imgSelect =document.createElement("img");
+            imgSelect.setAttribute("src",`images/${selection}.jpg`);
+            imgSelect.setAttribute("width","300");
+            imgSelect.setAttribute("height","300");
+            imgSelect.setAttribute("alt",`${selection}`);
+            return imgSelect;
         }
 
-        
         function computerPlay(){
 
             let randomNumber = Math.floor(Math.random()*3);
@@ -29,41 +151,80 @@
 
         }
 
-         function game(){
-
-            let computerWins=0;
-            let playerWins=0;
+        function game(button){
             
-            for(gameCounter=0;gameCounter<=4; gameCounter++){
-
-                let playerSelection =userInput().toLowerCase();
-
-                    console.log("You chose:",playerSelection);
-
-                let computerSelection=computerPlay();
-
-                    console.log("Computer chose:",computerSelection);
-
-                roundWinner(playerSelection,computerSelection);
+            let playerSelection = button;
+            let computerSelection= computerPlay();
                 
-                let scoreKeeper=roundWinner(playerSelection,computerSelection);
+            let prevImg= userSelect.children[0];
+            let prevImg2= compSelect.children[0];
 
-                console.log(scoreKeeper[0]);
-
-                if (scoreKeeper[1]===true) playerWins++;
-                else if(scoreKeeper[1]===false) computerWins++;
-                console.log("computer score",computerWins);
-                console.log("your score",playerWins);
+            userSelect.replaceChild(displayImg(playerSelection),prevImg);
+            compSelect.replaceChild(displayImg(computerSelection),prevImg2);
                 
+            roundWinner(playerSelection,computerSelection);
+                    
+            let scoreKeeper=roundWinner(playerSelection,computerSelection);
+
+            if (scoreKeeper[1]===true) playerWins++;
+            else if(scoreKeeper[1]===false) computerWins++;
+
+            if ((playerWins,computerWins)===true){
+                
+                gameResults(playerWins,computerWins,)
+                
+                return;
             }
-            
-            
-            if(playerWins>computerWins) console.log("You Win, Game over");
-            else if(computerWins>playerWins) console.log("You Lose!, Game over");
-            else if (computerWins===playerWins) console.log("Tie Game!,Game over");
 
-            return;
+            gameResults(playerWins,computerWins,scoreKeeper)
             
+            return;
+        }
+
+        function gameResults(playerWins,computerWins,scoreKeeper,){
+
+            userScore.textContent = playerWins;
+            computerScore.textContent=computerWins;
+
+            if(isGameOver(playerWins,computerWins)===false){
+            roundResults.textContent=scoreKeeper[0];
+            }
+            else if(isGameOver(playerWins,computerWins)===true){
+                if(playerWins===5) roundResults.textContent="You win, GGez computer";
+                else if(computerWins===5) roundResults.textContent="you lose, better luck next time bucko."
+            }
+        }
+            
+      
+        function selectYes(){
+
+            let finalImg= userSelect.children[0];
+            let finalImg2= compSelect.children[0];
+            let blankImg =document.createElement("img");
+            let blankImg2 =document.createElement("img");
+            playerWins=0;
+            computerWins=0;
+            userScore.textContent = playerWins;
+            computerScore.textContent= computerWins;
+            roundResults.textContent="Chose a button below to start, first to 5 wins!";
+            userSelect.replaceChild(blankImg,finalImg);
+            compSelect.replaceChild(blankImg2,finalImg2);
+            return ;
+        }
+
+        function selectNo(){
+            return;
+        }
+        
+
+
+        function isGameOver(playerWins,computerWins){
+
+            if((playerWins===5) || (computerWins===5)){
+            
+                return true;
+            }
+            else {return false;}
         }
 
         function roundWinner(playerSelection, computerSelection){
